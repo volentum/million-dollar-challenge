@@ -522,13 +522,38 @@
 <section class="hero">
   <div class="hero-eyebrow">Build Your Social Kit</div>
   <h1>Six posts. Yours in 60 seconds.</h1>
-  <p>Six designed posts that tell your $1M Challenge story — from kickoff to champion. Pick a visual direction, pick a platform, download as PNG. Captions and hashtags written for you.</p>
+  <p>Six designed posts written to recruit your eight realtor partners around a real cause: the $25,000 MassDREAMS grant most renters in Massachusetts have never heard of. Pick a visual direction, pick a platform, download as PNG. Captions and hashtags written for you.</p>
 </section>
 
 <div class="work">
   <!-- ─── LEFT: FORM PANEL ─────────────────────────────────── -->
   <div class="panel">
     <form id="customize-form" autocomplete="off">
+
+      <!-- AUDIENCE -->
+      <div class="section">
+        <div class="section-label">Audience</div>
+        <div class="field-help" style="margin-bottom: 14px;">Who are you posting for? The set of six posts changes to match.</div>
+        <div class="toggle-grid cols-3" id="audience-toggles">
+          <button type="button" class="toggle-btn" data-audience="realtor">
+            <span class="tb-name">Realtor Partners</span>
+            <span class="tb-sub">Recruit your eight.</span>
+          </button>
+          <button type="button" class="toggle-btn" data-audience="consumer">
+            <span class="tb-name">Consumers</span>
+            <span class="tb-sub">First-time buyers.</span>
+          </button>
+          <button type="button" class="toggle-btn" data-audience="past">
+            <span class="tb-name">Past Clients</span>
+            <span class="tb-sub">Sphere &amp; refi.</span>
+          </button>
+        </div>
+        <div class="field" style="margin-top: 18px;">
+          <label for="sourceLine">Source Attribution</label>
+          <input id="sourceLine" type="text" placeholder="Powered by Rate" />
+          <div class="field-help">Soft credibility line on each post. Edit it to match your brokerage or campaign sponsor — or leave blank to hide.</div>
+        </div>
+      </div>
 
       <!-- IDENTITY -->
       <div class="section">
@@ -684,6 +709,8 @@ const PROFILE_DEFAULTS = {
   accent: '#D13239',
 };
 const SOCIAL_DEFAULTS = {
+  audience: 'realtor', // realtor | consumer | past
+  sourceLine: 'Powered by Rate',
   style: 'magazine',  // editorial | magazine | data
   size: 'square',     // square | vertical | landscape
   platformLabel: 'Instagram / LinkedIn',
@@ -729,158 +756,521 @@ function setSaveStatus(text) {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  POST DEFINITIONS — 6 themes
+//  POST DEFINITIONS — keyed by audience
 // ─────────────────────────────────────────────────────────────
-const POSTS = [
+
+// REALTOR PARTNER set — cause-led, written to recruit MA realtors into
+// the campaign. Frame: "there is hidden money for renters, and you have
+// the renters in your sphere who qualify and don't know."
+const POSTS_REALTOR = [
   {
-    id: 'opportunity',
+    id: 'hidden_money',
     num: '01',
-    title: 'The Opportunity',
-    eyebrow: 'The Opportunity',
+    title: 'The Hidden Money',
+    eyebrow: 'Most agents don\'t know this exists.',
     bigStat: '$25,000',
-    bigStatLabel: 'MassHousing grant. Real money for real buyers.',
-    headline: 'There is real money on the table.',
-    bodyLine1: 'A $25,000 MassHousing grant.',
-    bodyLine2: 'A 90-day window. Eight realtor partners.',
-    bodyLine3: 'One disciplined campaign.',
-    cta: 'Know a buyer who qualifies? Let\'s talk.',
+    bigStatLabel: 'Sitting unclaimed. For first-time MA buyers.',
+    headline: 'There is $25,000 sitting in Massachusetts that almost nobody is talking about.',
+    bodyLine1: 'It\'s called MassDREAMS.',
+    bodyLine2: 'It\'s for first-time buyers.',
+    bodyLine3: 'And most renters have no idea it exists.',
+    cta: 'Realtors — let\'s go find them.',
     caption:
-`There is real money on the table for first-time homebuyers in Massachusetts.
+`There is $25,000 sitting in Massachusetts right now that most renters have never heard of.
 
-A $25,000 MassHousing down-payment grant. A 90-day window. The kind of opportunity that actually moves families into homes.
+It's called MassDREAMS. It's a state-funded down payment grant for first-time homebuyers in eligible communities. Up to twenty-five thousand dollars. Free money. Toward a home.
 
-I'm running my Million Dollar Challenge. Eight realtor partners. One disciplined campaign. Real closings — not promises.
+Here's the part that bothers me: most renters who qualify don't know the program exists. Most agents don't know either. So the money sits, leases get renewed, and another year goes by where families who could've owned a home stayed paying someone else's mortgage.
 
-If you know a buyer who's been sitting on the fence, this is the year.
+I'm changing that this season. I'm running a 90-day campaign to get this money into the hands of the people it was built for.
 
-DM me. Let's get them in.
+Realtor partners — if you have renters in your database who think they can't buy, you're sitting on a list of people whose lives can change in 30 days.
 
-#MillionDollarChallenge #MassHousing #FirstTimeHomeBuyer #RealEstate #HomeOwnership #DownPaymentAssistance #BuiltToClose`
+Let's go find them.
+
+#MassDREAMS #FirstTimeHomeBuyer #Massachusetts #RealEstate #DownPaymentAssistance #HomeOwnership`
   },
   {
-    id: 'kickoff',
+    id: 'your_sphere',
     num: '02',
-    title: 'My Commitment',
-    eyebrow: 'I\'m In.',
-    bigStat: '90 DAYS',
-    bigStatLabel: 'One challenge. One million in closings.',
-    headline: 'I\'m running the Million Dollar Challenge.',
-    bodyLine1: 'Ninety days.',
-    bodyLine2: 'Eight realtor partners.',
-    bodyLine3: 'One million in closings.',
-    cta: 'Public commitment. No backing out.',
+    title: 'The Renter In Your Sphere',
+    eyebrow: 'You already know who I\'m talking about.',
+    bigStat: '3 names',
+    bigStatLabel: 'Probably came to mind right now.',
+    headline: 'You already know three renters who think they can\'t buy.',
+    bodyLine1: 'The friend still saving for 20% down.',
+    bodyLine2: 'The couple stuck on student loans.',
+    bodyLine3: 'The family that got told no two years ago.',
+    cta: 'They probably qualify. They just don\'t know.',
     caption:
-`I'm officially running the Million Dollar Challenge.
+`Stop scrolling for a second. Think about the renters in your sphere.
 
-90 days. Eight realtor partners. One million dollars in closings.
+The friend who's been saving for "twenty percent down" for six years. The couple convinced their student loans disqualify them. The family who got pre-qualified at the wrong moment two years ago and decided buying wasn't for them.
 
-This isn't a marketing campaign — it's a public commitment. The kind you can't back out of when it gets hard. The kind that builds careers.
+Three names probably just came to mind. Maybe more.
 
-Why announce it? Because accountability changes everything. You'll watch me show up, week after week, with the receipts.
+Here's the truth most of them don't know: in Massachusetts right now there's up to $25,000 in down payment assistance available for first-time buyers through MassDREAMS. The 20% myth is dead. Student loans don't auto-disqualify anyone. And what was true two years ago about their file may not be true today.
 
-Here's to the next 90 days. Built to close.
+I'm running a 90-day campaign to put this program in front of the people who need it most.
 
-#MillionDollarChallenge #BuiltToClose #LoanOfficer #RealEstate #Mortgage #Accountability #DisciplineWins`
+If you're a realtor and any of those names came to mind — text me. We owe them at least a conversation.
+
+#MassDREAMS #RealtorPartners #FirstTimeHomeBuyer #Massachusetts #HomeOwnership #DownPaymentAssistance`
   },
   {
-    id: 'recruit',
+    id: 'the_math',
     num: '03',
-    title: 'Picking My Eight',
-    eyebrow: 'Calling Eight.',
-    bigStat: '8',
-    bigStatLabel: 'Realtor partners. Not a list. A team.',
-    headline: 'Looking for eight realtors who close.',
-    bodyLine1: 'Not a list.',
-    bodyLine2: 'A team.',
-    bodyLine3: 'A 90-day commitment.',
-    cta: 'If that\'s you — DM me. Slots filling fast.',
+    title: 'What 40 Families Looks Like',
+    eyebrow: 'The pitch isn\'t the closings. It\'s the families.',
+    bigStat: '40',
+    bigStatLabel: 'Families home. That\'s the goal.',
+    headline: 'Forty families home in 90 days.',
+    bodyLine1: 'Eight agents. Five closings each.',
+    bodyLine2: 'Forty households out of renting.',
+    bodyLine3: 'That\'s what the math actually means.',
+    cta: 'Real numbers. Real keys. Real lives.',
     caption:
-`I'm picking eight realtor partners for my Million Dollar Challenge. Not a referral list — a team.
+`Eight agents. Five closings each. Ninety days.
 
-The deal: 90 days. Five closings each. We move together, communicate weekly, run buyer education with your database, and we win together.
+That's the math people see when I describe my campaign. But the math isn't the point — the math is the byproduct.
 
-I'm looking for agents who close — not agents who shop rates. Agents who answer their phone on Saturdays. Agents who treat their database like their net worth, because it is.
+Here's what those numbers actually look like on the ground:
 
-If that's you, DM me. I'm picking the eight by Friday.
+Forty Massachusetts families who were renting on day one and own a home on day ninety. Forty kids who get a backyard. Forty couples who stop wondering whether they'll ever own anything. Forty renters who learned about a program their landlord hoped they'd never hear about.
 
-#RealtorPartners #MillionDollarChallenge #LoanOfficer #RealEstateTeam #DisciplineWins #BuiltToClose`
+That's the cause. Five closings each is what helping forty families looks like — distributed across a small team that knows what they're doing.
+
+I'm picking eight realtor partners who get this. Who treat their database like the trust that it is. Who would rather put one extra family in a home than chase one extra deal.
+
+If that's you — DM me. I'd rather have one of you than ten of the other kind.
+
+#MassDREAMS #RealtorPartners #FirstTimeHomeBuyer #Massachusetts #CauseBasedRealEstate #HomeOwnership`
   },
   {
-    id: 'testimonial',
+    id: 'not_selling',
     num: '04',
-    title: 'Client Proof',
-    eyebrow: 'They Closed.',
-    bigStat: '"',
-    bigStatLabel: 'A win that started with one phone call.',
-    headline: '"We never thought we\'d qualify. Now we have keys."',
-    bodyLine1: '— First-time homebuyer',
-    bodyLine2: '$25K MassHousing grant.',
-    bodyLine3: 'Closed in 32 days.',
-    cta: 'This is why I do this work.',
+    title: 'What I\'m Not Asking For',
+    eyebrow: 'This isn\'t the call you think it is.',
+    bigStat: '0',
+    bigStatLabel: 'Referrals I\'m asking for.',
+    headline: 'I\'m not asking for your referrals.',
+    bodyLine1: 'I\'m asking you to help me find',
+    bodyLine2: 'the people who got told no',
+    bodyLine3: 'and never came back.',
+    cta: 'That\'s a different ask. And it matters.',
     caption:
-`"We never thought we'd qualify. Now we have keys."
+`Realtor friends — I'm not asking for your referrals.
 
-That sentence is why I do this work.
+I know what message you usually get from a loan officer. "Send me your buyers. Send me your sellers. Send me anyone with a pulse." I'm not that call.
 
-This family came in convinced they couldn't buy. We walked them through the MassHousing grant, paired them with the right agent, and closed in 32 days.
+Here's what I'm actually asking:
 
-The Million Dollar Challenge isn't about the number on a leaderboard. It's about the moments behind every closing — the relief, the keys, the fresh start.
+Help me find the people in your database who got told "no" and never came back. The renters who pre-qualified two years ago at the wrong moment and concluded buying wasn't for them. The first-time buyers who think they need 20% down because nobody told them about MassDREAMS — a state program that puts up to $25,000 toward their down payment.
 
-Five more like this in the next 30 days. That's the goal.
+Those people aren't in your active pipeline. They're in your "someday" folder. And someday isn't coming for them unless someone reopens the conversation.
 
-#MillionDollarChallenge #FirstTimeHomeBuyer #HomeOwnership #ClientWin #BuiltToClose #RealEstate`
+I'm running a 90-day cause-driven campaign to do exactly that. If we work together, we don't split a referral. We resurface a renter who deserves to own.
+
+That's a different ask. And the answer is different too.
+
+#MassDREAMS #RealtorPartners #FirstTimeHomeBuyer #Massachusetts #HomeOwnership #LoanOfficer`
   },
   {
-    id: 'finalpush',
+    id: 'the_eight',
     num: '05',
-    title: 'Final Push',
-    eyebrow: 'Final 30 Days.',
-    bigStat: '30',
-    bigStatLabel: 'Days left. The window is closing.',
-    headline: 'The window is closing. Don\'t wait on this.',
-    bodyLine1: 'Thirty days left.',
-    bodyLine2: 'A $25K grant. A locked rate.',
-    bodyLine3: 'A real path to keys before fall.',
-    cta: 'If you\'ve been waiting — this is the call.',
+    title: 'The 8 I\'m Picking',
+    eyebrow: 'A small list. A high bar.',
+    bigStat: '8',
+    bigStatLabel: 'Realtor partners. That\'s the cap.',
+    headline: 'I\'m picking eight realtors. Here\'s the bar.',
+    bodyLine1: 'Cause first.',
+    bodyLine2: 'Database second.',
+    bodyLine3: 'Production third.',
+    cta: 'If those are in the right order, we should talk.',
     caption:
-`The window is closing.
+`I'm picking eight realtor partners for the next 90 days. Not eighty. Eight. Here's the bar:
 
-We're 30 days from the finish line on the Million Dollar Challenge — and the families I'm closing right now are the ones who said "let's go" instead of "let me think about it."
+Cause first — when you read "$25,000 in free down payment assistance for renters," your first reaction is "wait, who do I know who needs this?" not "what's in it for me?"
 
-A $25,000 MassHousing grant. A locked rate. A real path to keys before the leaves turn.
+Database second — you've stayed in touch with your past clients and your sphere. You know who's still renting. You can name them.
 
-If you've been sitting on this — call me, text me, DM me. Pre-approval takes one conversation.
+Production third — you close. Not because you're a closer, but because when families come to you serious about buying you don't fumble the moment.
 
-You don't get this window back. We do.
+That order matters. I've worked with the other order. It produces deals. It doesn't produce careers and it doesn't change neighborhoods.
 
-#MillionDollarChallenge #FinalPush #FirstTimeHomeBuyer #RealEstate #MassHousing #BuiltToClose`
+If those three are in the right order for you, send me a DM. Tell me one renter in your sphere you think we could help. That's how I'll know.
+
+I'm picking the eight by Friday.
+
+#MassDREAMS #RealtorPartners #CauseBasedRealEstate #Massachusetts #FirstTimeHomeBuyer #HomeOwnership`
   },
   {
-    id: 'champion',
+    id: 'the_window',
     num: '06',
-    title: 'Champion Close',
-    eyebrow: 'Million. Closed.',
-    bigStat: '$1,000,000',
-    bigStatLabel: 'Closed. 90 days. Built to close.',
-    headline: 'One million dollars. Closed.',
-    bodyLine1: 'Ninety days.',
-    bodyLine2: 'Eight realtor partners.',
-    bodyLine3: 'Forty families home.',
-    cta: 'To my team — thank you. We\'re just getting started.',
+    title: 'The Window',
+    eyebrow: 'The grant runs out. The renters keep renting.',
+    bigStat: '90 days',
+    bigStatLabel: 'The window. That\'s all of it.',
+    headline: 'The grant runs out. The window closes. Renters keep paying rent.',
+    bodyLine1: 'We can change that.',
+    bodyLine2: 'Or we can not.',
+    bodyLine3: 'But the window is real.',
+    cta: 'I\'m closing the partner list Friday.',
     caption:
-`We did it.
+`Real talk for my realtor friends.
 
-90 days. Eight realtor partners. Forty families in their new homes. One million dollars in closings.
+MassDREAMS funding is finite. Every cycle, the money runs out before the renters who need it ever hear about it. Then the window closes for another year, leases renew, and a few hundred Massachusetts families who could have owned a home this year keep paying someone else's mortgage instead.
 
-The Million Dollar Challenge isn't a marketing line — it's a credential I'll carry for the rest of my career. Earned, not claimed.
+That's the window I'm running against. 90 days. And I'd rather close it with eight realtors who care than alone.
 
-To my eight: I told you we'd do this together, and we did. To every family who trusted us with the biggest financial decision of their lives: thank you.
+This isn't about a "campaign." It's not a marketing line. It's a small group of professionals deciding to do something useful with the access we have.
 
-Onto the next one. Discipline wins.
+If that lands for you, DM me. I'm closing the partner list Friday.
 
-#MillionDollarChallenge #Champion #BuiltToClose #DisciplineWins #LoanOfficer #RealEstate #ThankYou`
+We can change this. Or we can not. But not knowing is no longer an option.
+
+#MassDREAMS #FirstTimeHomeBuyer #RealtorPartners #Massachusetts #HomeOwnership #CauseBasedRealEstate`
   },
 ];
+
+// CONSUMER set — direct to first-time buyers and renters in MA.
+// Frame: "this $25K is for you, you probably qualify, here's what you don't know."
+const POSTS_CONSUMER = [
+  {
+    id: 'c_25k',
+    num: '01',
+    title: 'The $25,000',
+    eyebrow: 'For first-time buyers in Massachusetts.',
+    bigStat: '$25,000',
+    bigStatLabel: 'Toward your down payment. From the state.',
+    headline: 'There\'s $25,000 with your name on it. You just haven\'t heard about it yet.',
+    bodyLine1: 'It\'s called MassDREAMS.',
+    bodyLine2: 'It\'s for first-time buyers.',
+    bodyLine3: 'And it covers your down payment.',
+    cta: 'Find out if you qualify. One short call.',
+    caption:
+`If you live in Massachusetts and you've been renting longer than you wanted to, read this.
+
+There is a state program called MassDREAMS. It gives first-time homebuyers up to $25,000 toward their down payment. Not a loan you have to pay back if you stay in the home — a grant.
+
+Most people don't know it exists. The state didn't run a Super Bowl ad. Your landlord isn't going to tell you. Your friend who just bought a house probably didn't qualify because the rules are specific — but they might apply to you.
+
+Income limits are higher than you'd think. The list of eligible communities is longer than you'd guess. And "first-time buyer" doesn't mean what most people assume — if you haven't owned in three years, you usually count.
+
+If renting is starting to feel like throwing money into a hole, send me a DM. I'll tell you in fifteen minutes whether this is something you should chase. No pressure, no pitch. Just answers.
+
+#MassDREAMS #FirstTimeHomeBuyer #Massachusetts #DownPaymentAssistance #HomeOwnership #BostonRealEstate`
+  },
+  {
+    id: 'c_myth',
+    num: '02',
+    title: 'The 20% Myth',
+    eyebrow: 'The biggest reason renters keep renting.',
+    bigStat: '3%',
+    bigStatLabel: 'Real minimum down. Not 20%.',
+    headline: 'You don\'t need 20% down. You probably never did.',
+    bodyLine1: 'The 20% rule is a myth.',
+    bodyLine2: 'Most first-time buyers put down 3-5%.',
+    bodyLine3: 'Some put down zero.',
+    cta: 'If 20% is what\'s stopping you, read on.',
+    caption:
+`The single biggest reason renters keep renting in Massachusetts: they think they need 20% down.
+
+They don't. They never did. That number got stuck in everybody's head and it's quietly costing families years of equity.
+
+The real numbers, plainly: most first-time homebuyer programs work with 3% down. Some work with zero. And in Massachusetts, the MassDREAMS program will give you up to $25,000 toward whatever you do put down — meaning you can often buy a home with very little of your own savings on the line.
+
+If you've been saving for "twenty percent" for the last five years, you've been training for a marathon nobody asked you to run.
+
+Send me a DM. I'll show you what the actual minimum looks like for your situation. It is almost certainly less than you think, and the wait is almost certainly over.
+
+#FirstTimeHomeBuyer #20PercentDownMyth #MassDREAMS #Massachusetts #HomeOwnership #DownPayment`
+  },
+  {
+    id: 'c_math',
+    num: '03',
+    title: 'The Math',
+    eyebrow: 'What $25,000 actually means.',
+    bigStat: '5 yrs',
+    bigStatLabel: 'Of saving. Skipped.',
+    headline: 'A $25,000 grant is five years of savings you don\'t have to do.',
+    bodyLine1: 'At $400/month saved,',
+    bodyLine2: '$25,000 takes 5 years.',
+    bodyLine3: 'Or it takes one application.',
+    cta: 'One of those is faster.',
+    caption:
+`Let's do the math.
+
+If you're a renter in Massachusetts saving aggressively — say, four hundred dollars a month after every other expense — saving $25,000 for a down payment takes you a little over five years. That's five more rent renewals. Five more years of housing costs you don't get back.
+
+Or you can fill out one application for a grant called MassDREAMS, qualify in a few weeks, and have $25,000 toward your down payment without ever needing to save it.
+
+It's the same money. One path takes five years. The other takes about thirty days.
+
+The catch isn't a catch — it's just that nobody told you about it. The state created this program quietly. Most renters who qualify never apply because they never hear about it.
+
+I help people apply. It costs you nothing to find out if you're eligible. DM me and I'll walk you through it.
+
+#MassDREAMS #FirstTimeHomeBuyer #Massachusetts #DownPaymentAssistance #HomeOwnership #RealEstate`
+  },
+  {
+    id: 'c_qualify',
+    num: '04',
+    title: 'You Probably Qualify',
+    eyebrow: 'You\'re probably more ready than you think.',
+    bigStat: '"Not yet"',
+    bigStatLabel: 'Is what most people say. And they\'re wrong.',
+    headline: 'You probably already qualify. You just don\'t know it.',
+    bodyLine1: 'Steady income? Likely yes.',
+    bodyLine2: 'Decent credit? Likely yes.',
+    bodyLine3: 'First home? Almost certainly yes.',
+    cta: '15 minutes. Find out for sure.',
+    caption:
+`The most common thing renters say to me: "I'm not ready yet."
+
+I get it. Buying a home feels like a thing you have to grow into. There's some imaginary checklist — perfect credit, six months of expenses saved, a 20% down payment, a quiet stretch of life with no surprises. That checklist isn't real.
+
+What's real: if you have steady income, decent credit (the actual minimum is way lower than people assume), and you haven't owned a home in the last three years, you probably qualify for MassDREAMS down payment assistance — up to $25,000 — right now.
+
+Not "in two years when I'm ready." Right now.
+
+I've watched too many renters wait themselves out of the market. Rent goes up. Home prices go up. The window people are waiting for never opens — because they're waiting on conditions that don't actually need to be met.
+
+Spend fifteen minutes with me on the phone. Find out exactly where you stand. The conversation is free, and the answer might surprise you.
+
+#FirstTimeHomeBuyer #MassDREAMS #Massachusetts #HomeOwnership #DownPaymentAssistance #RealEstate`
+  },
+  {
+    id: 'c_waiting',
+    num: '05',
+    title: 'The Cost of Waiting',
+    eyebrow: 'Another year is not free.',
+    bigStat: '+$22K',
+    bigStatLabel: 'What waiting one more year actually costs you.',
+    headline: 'Waiting another year isn\'t free. Here\'s the real cost.',
+    bodyLine1: 'Rent goes up.',
+    bodyLine2: 'Home prices go up.',
+    bodyLine3: 'The grant runs out.',
+    cta: 'The window is real. Don\'t wait it out.',
+    caption:
+`"Maybe next year" is the most expensive sentence in real estate.
+
+Run the numbers with me. The average Massachusetts rent went up about 5% last year. Average home prices went up too. The MassDREAMS grant is funded in cycles, and when each cycle's funding runs out, the next round isn't guaranteed to look the same.
+
+So when you say "let me wait another year," what you're really saying is: pay roughly $1,800 more in rent, watch the same home cost roughly $20,000 more, and hope the grant program still exists in the same form.
+
+That's not waiting. That's losing on three fronts at once.
+
+I'm not telling you to panic. I'm telling you that the timing math is real, and "let me think about it for a year" is a more expensive decision than people realize.
+
+If you've been on the fence, send me a DM. We'll spend fifteen minutes figuring out whether this year is actually your year — and if it is, we'll move. If it isn't, you'll know exactly what to do to make next year work.
+
+#MassDREAMS #FirstTimeHomeBuyer #Massachusetts #HomeOwnership #RealEstate #DownPaymentAssistance`
+  },
+  {
+    id: 'c_call',
+    num: '06',
+    title: 'The 15-Minute Call',
+    eyebrow: 'Free. No pressure. Just answers.',
+    bigStat: '15 min',
+    bigStatLabel: 'One conversation. That\'s all this is.',
+    headline: 'One 15-minute call. That\'s the whole first step.',
+    bodyLine1: 'No commitment.',
+    bodyLine2: 'No pressure.',
+    bodyLine3: 'Just real answers about your situation.',
+    cta: 'DM me. Or call. Whichever feels easier.',
+    caption:
+`If you've read this far, here's the plain version.
+
+Step one of buying a home is not finding the home. It is not getting pre-approved. It is not even saving the down payment.
+
+Step one is one fifteen-minute conversation with someone honest, who will look at your real numbers — your income, your credit, your situation — and tell you the truth about where you stand.
+
+That's all I do on the first call. No pressure. No upsell. No pitch. If you're three years out, I'll tell you and we'll plan three years out. If you're three months out and you don't know it, I'll tell you that too.
+
+Most renters I talk to are closer to "yes" than they think. A handful are further away than they hoped. Both groups leave the call clear, which beats the alternative — staying stuck in "I'll figure it out someday."
+
+DM me. Or call me. Or email — whatever feels easiest. Fifteen minutes. The rest follows from there.
+
+#FirstTimeHomeBuyer #MassDREAMS #Massachusetts #HomeOwnership #RealEstate #DownPaymentAssistance`
+  },
+];
+
+// PAST CLIENT set — to your sphere, refi candidates, referral sources.
+// Frame: warm, helpful, low-pressure. The cause is bigger than the past
+// transaction; you're inviting them to be part of it (refer someone, or
+// rethink their own situation).
+const POSTS_PAST_CLIENT = [
+  {
+    id: 'p_thanks',
+    num: '01',
+    title: 'Thank You',
+    eyebrow: 'Before I ask anything — thank you.',
+    bigStat: '❤',
+    bigStatLabel: 'For trusting me with the biggest decision of your life.',
+    headline: 'I don\'t take your trust for granted. Ever.',
+    bodyLine1: 'You bought a home with me.',
+    bodyLine2: 'That trust is the entire job.',
+    bodyLine3: 'I haven\'t forgotten.',
+    cta: 'No ask. Just gratitude.',
+    caption:
+`Quick note to my past clients.
+
+I don't post these often, so I'll keep it short. The biggest privilege of doing this work is that, at some point, you decided to trust me with the biggest financial decision of your life. That's not a transaction. That's a real thing.
+
+I think about that more than you'd guess. When I'm picking which deals to take, when I'm deciding how to show up on a Saturday, when I'm choosing whether to push back on a lender or a contract term — I'm thinking about whether the version of me you trusted is still the version doing the work. I want that answer to stay yes.
+
+So no ask in this post. No CTA, no promo, no "let me know if you need anything." Just thank you. For the trust, for the kind words to your friends, for the holiday cards, for letting me be part of your story.
+
+If our paths cross again — for a refi, a referral, a question, or a coffee — I'll be ready. Until then, this one's just gratitude.
+
+#PastClients #ThankYou #Realtor #Massachusetts #HomeOwnership #Mortgage`
+  },
+  {
+    id: 'p_refer',
+    num: '02',
+    title: 'Know A Renter?',
+    eyebrow: 'A small ask, for a big reason.',
+    bigStat: '$25,000',
+    bigStatLabel: 'For a renter who probably doesn\'t know it exists.',
+    headline: 'Know a renter who deserves what you have? Read this.',
+    bodyLine1: 'There\'s a $25K MA grant.',
+    bodyLine2: 'Most renters don\'t know about it.',
+    bodyLine3: 'You probably know one who should.',
+    cta: 'One name is enough. I\'ll take it from there.',
+    caption:
+`To my past clients in Massachusetts — a small ask, for a big reason.
+
+There is a state program called MassDREAMS that gives first-time homebuyers up to $25,000 toward their down payment. It is real money. It is for renters who think they can't buy. And it is wildly under-promoted — most people who qualify never hear about it.
+
+You bought a home. You know what changed when you did. You also probably know at least one person — a friend, a sibling, a coworker, a neighbor — who is still renting and quietly believes that ship has sailed for them. It almost certainly hasn't.
+
+If a name comes to mind, send it to me. That's the whole ask. I'll reach out warmly, no pressure, no pitch — just a quick conversation to find out whether MassDREAMS is something they should chase.
+
+The money is sitting there waiting. The hard part is just getting it in front of the right people. You can help me do that.
+
+Thank you. Always.
+
+#MassDREAMS #FirstTimeHomeBuyer #Massachusetts #Referral #HomeOwnership #PastClients`
+  },
+  {
+    id: 'p_equity',
+    num: '03',
+    title: 'Your Equity',
+    eyebrow: 'A number you probably haven\'t checked lately.',
+    bigStat: '+38%',
+    bigStatLabel: 'Average MA home appreciation since 2020.',
+    headline: 'Your home is probably worth more than you think.',
+    bodyLine1: 'You bought it.',
+    bodyLine2: 'You forgot about it.',
+    bodyLine3: 'It quietly got more valuable.',
+    cta: 'Want to know the number? It takes me 5 minutes to pull.',
+    caption:
+`Quick PSA to my past clients.
+
+Most homeowners don't actually know what their home is worth right now. Not the Zillow number — the real number, factoring in your specific neighborhood, recent comps, and the equity you've built up since you bought.
+
+Massachusetts has had real appreciation across most of the state since 2020. If you bought before then, the gap between what you owe and what the home is worth is probably bigger than you've registered.
+
+Why does it matter? Because that equity is yours to use — for a renovation, a second property, debt consolidation, or just clarity about your net worth. Or none of the above. You don't have to do anything with it. But you should know what it is.
+
+If you want me to pull the numbers for your home, send me a DM. It takes me about five minutes and there's no obligation tied to it. Just information you should have.
+
+Knowing your numbers is half the game. I'd rather you have them and not need them than the reverse.
+
+#Equity #HomeOwnership #Massachusetts #Refinance #PastClients #RealEstate`
+  },
+  {
+    id: 'p_refi',
+    num: '04',
+    title: 'If You Closed High',
+    eyebrow: 'A note to anyone who closed at 7%+',
+    bigStat: '7%+',
+    bigStatLabel: 'If that\'s where your rate is, read this.',
+    headline: 'If you closed at 7% or higher, this is for you.',
+    bodyLine1: 'Rates aren\'t where you locked.',
+    bodyLine2: 'A check-in costs you nothing.',
+    bodyLine3: 'A refi might cost you a lot less than you think.',
+    cta: 'Five-minute rate check. No commitment.',
+    caption:
+`If you locked your mortgage at 7% or higher in the last couple of years, this one's for you.
+
+I know — when you closed, the rate was the rate. You did the math, you decided the home was worth it, and you got on with your life. That was the right call.
+
+Here's the thing: rates have moved. They move slowly and quietly, and most homeowners don't realize they should re-check until well past the point where re-checking would have helped them. Even a one-point drop on a typical Massachusetts mortgage is real money each month — money that's been silently going to interest instead of staying in your account.
+
+Refinancing isn't always the right move. Sometimes the closing costs eat the savings. Sometimes you're close enough to paying it off that it doesn't make sense. Sometimes a rate-and-term refi outperforms a cash-out and vice versa. The only way to know which one applies to you is to actually run your numbers.
+
+That's a five-minute conversation. No commitment, no fee, no obligation to do anything with the answer. Just clarity.
+
+DM me your last name and I'll pull your file.
+
+#Refinance #PastClients #Massachusetts #Mortgage #HomeOwnership #RealEstate`
+  },
+  {
+    id: 'p_movingup',
+    num: '05',
+    title: 'Moving Up?',
+    eyebrow: 'Outgrowing your starter home?',
+    bigStat: '2→3',
+    bigStatLabel: 'The move most clients put off too long.',
+    headline: 'If you\'re thinking about a bigger home — let\'s talk.',
+    bodyLine1: 'Sell your current home.',
+    bodyLine2: 'Use the equity.',
+    bodyLine3: 'Skip the rental in between.',
+    cta: 'There\'s a play here. I\'ll show you the math.',
+    caption:
+`To anyone in my past-client list who's quietly outgrown their first home — this one's for you.
+
+Most people in your shoes assume the move-up is harder than it is. The story in your head: "I'll have to sell first, find a rental, store everything, look for the next place from scratch, and hope it lines up." That story is outdated.
+
+In Massachusetts right now, there are real plays for second-time buyers. Bridge financing has gotten cleaner. Equity from your current home (which is probably more than you think — see my last post) can become the down payment on the next place without forcing you into a rental gap. There are products specifically designed to make a 2-to-3 bedroom, condo-to-house, or city-to-suburb move smooth.
+
+I do this kind of move regularly with clients I closed two, four, six years ago. The shape of the deal has changed since you bought your first place — for the better, in most cases.
+
+If "we should probably move at some point" has been a recurring conversation at your kitchen table for more than a year, send me a DM. We'll spend twenty minutes mapping what the move actually looks like financially. No pressure to act — just clarity on what's possible.
+
+#MoveUpBuyer #Massachusetts #PastClients #HomeOwnership #RealEstate #Mortgage`
+  },
+  {
+    id: 'p_question',
+    num: '06',
+    title: '60 Seconds',
+    eyebrow: 'One question. That\'s all this is.',
+    bigStat: '60 sec',
+    bigStatLabel: 'I respect your time. So this is short.',
+    headline: 'One question, and I\'ll be out of your inbox.',
+    bodyLine1: 'Is anything in your housing life',
+    bodyLine2: 'feeling stuck right now?',
+    bodyLine3: 'That\'s the whole question.',
+    cta: 'Reply with one word. I\'ll do the rest.',
+    caption:
+`I'm going to keep this one short, because the whole point is that I respect your inbox.
+
+One question for my past clients:
+
+Is anything in your housing life feeling a little stuck right now?
+
+A rate that's too high. An equity number you've been meaning to check. A second property you're curious about. A renter friend who needs the conversation you and I once had. A move-up that's been "next year" for three years.
+
+If anything just came to mind — even loosely — reply with one word: "yes." That's all you have to do. I'll take it from there with a single short message, and we'll see if it's worth a real conversation. If it isn't, no harm done and we both move on.
+
+You're busy. I'm not asking you to think about real estate today. I'm just opening a small door, in case there's something on the other side of it that's been quietly waiting.
+
+Thanks for being part of this practice. Always.
+
+#PastClients #Mortgage #Massachusetts #HomeOwnership #RealEstate #CheckIn`
+  },
+];
+
+const POST_SETS = {
+  realtor: { label: 'Realtor Partners', sub: 'Recruit your eight.', posts: POSTS_REALTOR },
+  consumer: { label: 'Consumers', sub: 'For first-time buyers and renters.', posts: POSTS_CONSUMER },
+  past: { label: 'Past Clients', sub: 'Sphere, refi, referrals.', posts: POSTS_PAST_CLIENT },
+};
+
+// Active POSTS array — assigned at render time based on selected audience.
+let POSTS = POST_SETS.realtor.posts;
 
 // ─────────────────────────────────────────────────────────────
 //  CANVAS TEMPLATES — three styles per size
@@ -904,6 +1294,7 @@ function profileBits() {
     headshot: profile.headshotUrl || '',
     logo: profile.logoUrl || '',
     accent: profile.accent || '#D13239',
+    sourceLine: (social.sourceLine || '').trim(),
   };
 }
 
@@ -1020,8 +1411,8 @@ function renderEditorial(post, size) {
           ${agentFooter(p, s.footer)}
         </div>
         <div style="text-align: right;">
-          <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer * 0.78}px; letter-spacing: 0.22em; text-transform: uppercase; color: ${p.accent};">$1M Challenge</div>
-          <div style="font-family: Montserrat; font-weight: 700; font-size: ${s.footer * 0.7}px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-top: 4px;">Built To Close</div>
+          <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer * 0.78}px; letter-spacing: 0.22em; text-transform: uppercase; color: ${p.accent};">MassDREAMS Campaign</div>
+          ${p.sourceLine ? `<div style="font-family: Montserrat; font-weight: 600; font-size: ${s.footer * 0.65}px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-top: 4px;">${escapeHtml(p.sourceLine)}</div>` : ''}
         </div>
       </div>
     </div>`;
@@ -1060,7 +1451,7 @@ function renderMagazine(post, size) {
               ${escapeHtml(post.cta)}
             </div>
             <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer * 0.85}px; letter-spacing: 0.22em; text-transform: uppercase; color: ${p.accent};">
-              $1M Challenge
+              ${p.sourceLine ? escapeHtml(p.sourceLine) : 'MassDREAMS · MA'}
             </div>
           </div>
         </div>
@@ -1074,12 +1465,12 @@ function renderMagazine(post, size) {
       <div style="position: absolute; top: 0; right: 0; width: ${size === 'vertical' ? 540 : 380}px; height: ${size === 'vertical' ? 540 : 380}px; background: ${p.accent};"></div>
       <div style="position: absolute; top: 0; right: 0; width: ${size === 'vertical' ? 540 : 380}px; height: ${size === 'vertical' ? 540 : 380}px; display: flex; align-items: center; justify-content: center; padding: 40px;">
         <div style="text-align: center;">
-          <div style="font-family: Montserrat; font-weight: 800; font-size: ${size === 'vertical' ? 38 : 26}px; letter-spacing: 0.22em; text-transform: uppercase; color: white; line-height: 1.2;">
-            $1M<br>Challenge
+          <div style="font-family: Montserrat; font-weight: 800; font-size: ${size === 'vertical' ? 30 : 20}px; letter-spacing: 0.22em; text-transform: uppercase; color: white; line-height: 1.2;">
+            Mass<br>DREAMS
           </div>
           <div style="width: 36px; height: 2px; background: white; margin: ${size === 'vertical' ? 18 : 12}px auto;"></div>
-          <div style="font-family: Montserrat; font-weight: 700; font-size: ${size === 'vertical' ? 18 : 12}px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.85);">
-            Built To Close
+          <div style="font-family: Montserrat; font-weight: 700; font-size: ${size === 'vertical' ? 14 : 10}px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.85); line-height: 1.4;">
+            ${p.sourceLine ? escapeHtml(p.sourceLine) : 'Down Payment<br>Assistance'}
           </div>
         </div>
       </div>
@@ -1167,7 +1558,7 @@ function renderData(post, size) {
           <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: #0a0a0a;">${escapeHtml(post.eyebrow)}</span>
         </div>
         <div style="font-family: Montserrat; font-weight: 700; font-size: ${s.eyebrow * 0.85}px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.4);">
-          $1M Challenge
+          ${p.sourceLine ? escapeHtml(p.sourceLine) : 'MassDREAMS · MA'}
         </div>
       </div>
 
@@ -1214,6 +1605,29 @@ function canvasDims(size) {
 function renderAll() {
   const list = document.getElementById('post-list');
   list.innerHTML = '';
+
+  // Resolve POSTS from active audience set
+  const set = POST_SETS[social.audience] || POST_SETS.realtor;
+  POSTS = set.posts;
+
+  // Empty-state message when an audience set has no posts yet
+  if (!POSTS || POSTS.length === 0) {
+    list.innerHTML = `
+      <div style="max-width: 720px; padding: 80px 40px; text-align: center; color: rgba(255,255,255,0.5); font-family: 'Jost', sans-serif;">
+        <div style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 18px;">
+          ${escapeHtml(set.label)} — Coming Soon
+        </div>
+        <div style="font-size: 22px; line-height: 1.5; margin-bottom: 24px; color: rgba(255,255,255,0.85);">
+          We're writing this set next.
+        </div>
+        <div style="font-size: 15px; line-height: 1.6; max-width: 460px; margin: 0 auto;">
+          The Realtor Partners set is ready now — a full six posts written to recruit your eight, cause-led, MA-specific. Switch back to that audience to see them.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   const dims = canvasDims(social.size);
   const wrapWidth = 920 - 360; // post-card grid: minmax(0,1fr) on left = ~560px when meta is 360
   // Determine display fit: scale canvas so it fits in left column (max ~520px wide)
@@ -1488,6 +1902,28 @@ function wireForm() {
   wireUpload('headshot');
   wireUpload('logo');
 
+  // Audience toggles
+  document.querySelectorAll('#audience-toggles .toggle-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#audience-toggles .toggle-btn').forEach(o => o.classList.remove('active'));
+      b.classList.add('active');
+      social.audience = b.dataset.audience;
+      saveSocial();
+      renderAll();
+    });
+  });
+
+  // Source line input
+  const sourceLineInput = document.getElementById('sourceLine');
+  if (sourceLineInput) {
+    sourceLineInput.value = social.sourceLine || '';
+    sourceLineInput.addEventListener('input', () => {
+      social.sourceLine = sourceLineInput.value;
+      saveSocial();
+      renderAll();
+    });
+  }
+
   // Style toggles
   document.querySelectorAll('#style-toggles .toggle-btn').forEach(b => {
     b.addEventListener('click', () => {
@@ -1512,6 +1948,9 @@ function wireForm() {
   });
 
   // restore active toggles from social state
+  document.querySelectorAll('#audience-toggles .toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.audience === social.audience);
+  });
   document.querySelectorAll('#style-toggles .toggle-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.style === social.style);
   });
