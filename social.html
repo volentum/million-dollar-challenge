@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Customize Your Social Posts — Million Dollar Challenge</title>
+<meta name="viewport" content="width=1280" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Jost:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.min.js"></script>
+<script>
+  // Silence the noisy (but benign) ResizeObserver loop warning that html-to-image
+  // and scaled flex children emit. Wraps the actual ResizeObserver constructor.
+  if (typeof ResizeObserver !== 'undefined') {
+    const _RO = window.ResizeObserver;
+    window.ResizeObserver = class extends _RO {
+      constructor(cb) {
+        super((entries, obs) => {
+          window.requestAnimationFrame(() => {
+            try { cb(entries, obs); } catch (e) { /* swallow */ }
+          });
+        });
+      }
+    };
+  }
+</script>
+
+<style>
+  :root {
+    --red: #D13239;
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+    --steel: #595959;
+    --light: #F4F4F4;
+    --hairline: rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Jost', system-ui, sans-serif;
+    background: var(--white); color: var(--black);
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── HEADER ────────────────────────────────────────────────── */
+  header {
+    border-bottom: 1px solid var(--hairline);
+    padding: 28px 56px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--white);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .brand { display: flex; align-items: center; gap: 14px; }
+  .brand-mark {
+    width: 36px; height: 36px; background: var(--red);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-family: Montserrat, sans-serif;
+    font-weight: 800; font-size: 14px; letter-spacing: -0.02em;
+  }
+  .brand-text { display: flex; flex-direction: column; gap: 1px; }
+  .brand-eyebrow {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 0.22em;
+    color: var(--red); text-transform: uppercase;
+  }
+  .brand-name {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 15px; letter-spacing: -0.005em;
+  }
+  .header-right { display: flex; align-items: center; gap: 24px; font-size: 13px; color: var(--steel); }
+  .step {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .step-num { color: var(--red); }
+
+  /* ── TAB NAV ───────────────────────────────────────────────── */
+  .tabnav {
+    display: flex; align-items: center; gap: 0;
+    padding: 0 56px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--white);
+    position: sticky; top: 92px; z-index: 9;
+  }
+  .tabnav a {
+    padding: 18px 0;
+    margin-right: 36px;
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--steel);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tabnav a:hover { color: var(--black); }
+  .tabnav a.active { color: var(--black); border-bottom-color: var(--red); }
+  .tabnav .tab-num {
+    font-size: 10px; color: var(--red);
+    font-variant-numeric: tabular-nums;
+  }
+  .tabnav .tab-spacer { flex: 1; }
+  .tabnav .tab-meta {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--steel);
+  }
+
+  /* ── HERO ──────────────────────────────────────────────────── */
+  .hero {
+    padding: 64px 56px 48px;
+    border-bottom: 1px solid var(--hairline);
+    max-width: 1500px;
+  }
+  .hero-eyebrow {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 14px;
+  }
+  .hero-eyebrow::after {
+    content: ''; display: inline-block; width: 48px; height: 2px;
+    background: var(--red); margin-left: 14px; vertical-align: middle;
+  }
+  .hero h1 {
+    font-family: Montserrat, sans-serif; font-weight: 800;
+    font-size: 56px; line-height: 1.02; letter-spacing: -0.025em;
+    margin: 0 0 18px; max-width: 900px;
+  }
+  .hero p {
+    font-size: 19px; line-height: 1.5; color: var(--steel);
+    max-width: 720px; margin: 0; font-weight: 300;
+  }
+
+  /* ── LAYOUT ────────────────────────────────────────────────── */
+  .work {
+    display: grid; grid-template-columns: 460px 1fr;
+    min-height: calc(100vh - 280px);
+  }
+  .panel {
+    border-right: 1px solid var(--hairline);
+    padding: 40px 40px 80px;
+    overflow-y: auto;
+    max-height: calc(100vh - 145px);
+    position: sticky; top: 145px;
+  }
+  .preview-pane {
+    background: #1a1a1a;
+    padding: 56px 48px 80px;
+    display: flex; flex-direction: column; gap: 56px;
+    align-items: center;
+    min-height: calc(100vh - 145px);
+  }
+
+  /* ── FORM (mirrors index.html) ─────────────────────────────── */
+  .section {
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid var(--hairline);
+  }
+  .section:last-of-type { border-bottom: 0; }
+  .section-label {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--red);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--hairline);
+  }
+  .field { margin-bottom: 18px; }
+  .field-row {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .field label {
+    display: block;
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.06em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .field input[type="text"], .field input[type="email"], .field input[type="tel"], .field input[type="url"] {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid var(--hairline);
+    background: var(--white);
+    font-family: 'Jost', sans-serif; font-size: 15px; font-weight: 400;
+    color: var(--black);
+    border-radius: 2px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .field input:focus {
+    outline: 0;
+    border-color: var(--black);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
+  }
+  .field-help {
+    font-size: 12px; color: var(--steel); margin-top: 6px; line-height: 1.4;
+  }
+
+  .upload-label {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.06em;
+    color: var(--black);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .upload {
+    border: 1.5px dashed var(--hairline);
+    background: var(--light);
+    aspect-ratio: 1;
+    border-radius: 3px;
+    cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .upload:hover { border-color: var(--steel); }
+  .upload.has-image { background: var(--white); border-style: solid; }
+  .upload input[type="file"] { display: none; }
+  .upload-content { text-align: center; pointer-events: none; padding: 12px; }
+  .upload-icon {
+    width: 32px; height: 32px;
+    margin: 0 auto 8px;
+    background: var(--white); border: 1px solid var(--hairline);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--steel); font-size: 16px; font-weight: 300;
+  }
+  .upload-text {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--black);
+  }
+  .upload-help {
+    font-size: 10px; color: var(--steel); margin-top: 4px;
+    letter-spacing: 0.04em;
+  }
+  .upload img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .upload .upload-clear {
+    display: none;
+    position: absolute; top: 8px; right: 8px;
+    width: 22px; height: 22px;
+    background: rgba(0,0,0,0.6); color: white; border: 0;
+    border-radius: 50%; cursor: pointer;
+    font-size: 14px; line-height: 1; padding: 0;
+    z-index: 2;
+  }
+  .upload.has-image .upload-content { display: none; }
+  .upload.has-image .upload-clear { display: block; }
+
+  /* style + size selectors */
+  .toggle-grid { display: grid; gap: 8px; }
+  .toggle-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .toggle-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .toggle-btn {
+    padding: 14px 10px;
+    background: var(--white);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    font-family: 'Jost', sans-serif;
+  }
+  .toggle-btn:hover { border-color: var(--steel); }
+  .toggle-btn.active {
+    border-color: var(--black);
+    background: var(--black);
+    color: white;
+  }
+  .toggle-btn .tb-name {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    display: block; margin-bottom: 2px;
+  }
+  .toggle-btn .tb-meta {
+    font-size: 11px; color: var(--steel);
+    letter-spacing: 0.02em;
+  }
+  .toggle-btn.active .tb-meta { color: rgba(255,255,255,0.6); }
+
+  /* size visual */
+  .size-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+  }
+  .size-btn {
+    background: var(--white);
+    border: 1px solid var(--hairline);
+    border-radius: 3px;
+    padding: 12px 8px 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .size-btn:hover { border-color: var(--steel); }
+  .size-btn.active { border-color: var(--black); background: var(--black); color: white; }
+  .size-btn .size-shape {
+    margin: 0 auto 8px;
+    border: 1.5px solid currentColor;
+    opacity: 0.7;
+  }
+  .size-btn .size-name {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 1px;
+  }
+  .size-btn .size-dim {
+    font-size: 9px; opacity: 0.6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .save-status {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--steel);
+    margin-top: 28px;
+    padding-top: 20px; border-top: 1px solid var(--hairline);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .save-status::before {
+    content: ''; width: 6px; height: 6px; background: #2A8A4A; border-radius: 50%;
+  }
+
+  /* ── PREVIEW: stage label ──────────────────────────────────── */
+  .stage-header {
+    width: 100%; max-width: 920px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-bottom: 0;
+  }
+  .stage-title {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+  .stage-meta {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 11px; color: rgba(255,255,255,0.85);
+    letter-spacing: 0.02em;
+  }
+  .stage-meta b { color: white; font-weight: 700; }
+
+  /* ── POST CARDS ───────────────────────────────────────────── */
+  .post-card {
+    width: 100%; max-width: 920px;
+    background: #222; border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    display: grid;
+  }
+  .post-card.layout-square { grid-template-columns: minmax(0, 1fr) 360px; }
+  .post-card.layout-vertical { grid-template-columns: minmax(0, 1fr) 360px; }
+  .post-card.layout-landscape { grid-template-columns: 1fr; }
+
+  .post-canvas-wrap {
+    background: #111;
+    padding: 28px;
+    display: flex; align-items: center; justify-content: center;
+    min-height: 400px;
+    position: relative;
+  }
+  .post-meta {
+    padding: 28px 32px;
+    background: #1f1f1f;
+    color: rgba(255,255,255,0.92);
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .post-meta-num {
+    font-family: Montserrat, sans-serif; font-weight: 800;
+    font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--red);
+  }
+  .post-meta-title {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 22px; letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .post-caption-label {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-top: 4px;
+  }
+  .post-caption {
+    background: #161616; border-radius: 3px;
+    padding: 14px 16px;
+    font-size: 13px; line-height: 1.6;
+    color: rgba(255,255,255,0.85);
+    white-space: pre-wrap;
+    max-height: 200px; overflow-y: auto;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .post-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .post-btn {
+    flex: 1; min-width: 0;
+    padding: 11px 14px;
+    background: white; color: black;
+    border: 0; cursor: pointer;
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: background 0.15s, transform 0.05s;
+  }
+  .post-btn:hover { background: rgba(255,255,255,0.85); }
+  .post-btn:active { transform: translateY(1px); }
+  .post-btn.secondary {
+    background: rgba(255,255,255,0.08); color: white;
+    border: 1px solid rgba(255,255,255,0.18);
+  }
+  .post-btn.secondary:hover { background: rgba(255,255,255,0.14); }
+  .post-btn .btn-tick {
+    display: none;
+    color: #4ade80;
+  }
+  .post-btn.copied .btn-tick { display: inline; }
+  .post-btn.copied .btn-label { color: #4ade80; }
+
+  /* ── POST CANVAS BASE ─────────────────────────────────────── */
+  .canvas {
+    background: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    flex-shrink: 0;
+  }
+  /* sizes: scale via wrapper transform */
+  .canvas.size-square { width: 1080px; height: 1080px; }
+  .canvas.size-vertical { width: 1080px; height: 1920px; }
+  .canvas.size-landscape { width: 1200px; height: 630px; }
+  /* LinkedIn = square; uses size-square */
+
+  .canvas-scaler {
+    transform-origin: center center;
+  }
+
+  /* ── COMMON CANVAS ELEMENTS ───────────────────────────────── */
+  .c-eyebrow {
+    font-family: Montserrat, sans-serif; font-weight: 800;
+    letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .c-headline {
+    font-family: Montserrat, sans-serif; font-weight: 800;
+    letter-spacing: -0.025em; line-height: 0.96;
+  }
+  .c-body {
+    font-family: 'Jost', sans-serif; font-weight: 300;
+    line-height: 1.45;
+  }
+  .c-stat {
+    font-family: Montserrat, sans-serif; font-weight: 800;
+    letter-spacing: -0.04em; line-height: 0.9;
+  }
+
+  /* ── FOOTER ────────────────────────────────────────────────── */
+  .download-bar {
+    margin: 36px -40px -80px;
+    padding: 28px 40px;
+    background: var(--black); color: white;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  }
+  .download-bar .db-text {
+    font-family: Montserrat, sans-serif; font-weight: 600;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+  }
+  .download-bar a {
+    font-family: Montserrat, sans-serif; font-weight: 700;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: white; text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .download-bar a::after {
+    content: '→'; transition: transform 0.15s;
+  }
+  .download-bar a:hover::after { transform: translateX(4px); }
+
+  /* ── RESPONSIVE ────────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .work { grid-template-columns: 1fr; }
+    .panel { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--hairline); }
+    .preview-pane { min-height: 60vh; }
+    .hero h1 { font-size: 44px; }
+    .post-card.layout-square, .post-card.layout-vertical { grid-template-columns: 1fr; }
+  }
+
+  /* hide sentinel during PNG export */
+  .exporting .post-meta, .exporting .stage-header, .exporting body > *:not(.export-target) { /* placeholder */ }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">MD</div>
+    <div class="brand-text">
+      <span class="brand-eyebrow">2026 Edition</span>
+      <span class="brand-name">The Million Dollar Challenge</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <span class="step" style="opacity:0.4;">01 &nbsp;Customize</span>
+    <span class="step"><span class="step-num">02</span> &nbsp;Social Posts</span>
+    <span class="step" style="opacity:0.4;">03 &nbsp;Download</span>
+  </div>
+</header>
+
+<nav class="tabnav">
+  <a href="index.html"><span class="tab-num">01</span> Slide Deck</a>
+  <a href="social.html" class="active"><span class="tab-num">02</span> Social Posts</a>
+  <div class="tab-spacer"></div>
+  <span class="tab-meta">Same profile across both</span>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">Build Your Social Kit</div>
+  <h1>Six posts. Yours in 60 seconds.</h1>
+  <p>Six designed posts that tell your $1M Challenge story — from kickoff to champion. Pick a visual direction, pick a platform, download as PNG. Captions and hashtags written for you.</p>
+</section>
+
+<div class="work">
+  <!-- ─── LEFT: FORM PANEL ─────────────────────────────────── -->
+  <div class="panel">
+    <form id="customize-form" autocomplete="off">
+
+      <!-- IDENTITY -->
+      <div class="section">
+        <div class="section-label">Your Identity</div>
+        <div class="field-help" style="margin: -10px 0 22px; padding: 10px 14px; background: var(--light); border-left: 2px solid var(--red); font-size: 12px; color: var(--steel); line-height: 1.5;">
+          Pre-filled from your deck profile. Edits here flow back automatically — change anything if a different version reads better for social.
+        </div>
+
+        <div class="field">
+          <label for="agentName">Full Name</label>
+          <input id="agentName" type="text" placeholder="e.g. Maria Sanchez" />
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="agentTitle">Role / Title</label>
+            <input id="agentTitle" type="text" placeholder="Loan Officer" />
+          </div>
+          <div class="field">
+            <label for="brokerage">Brokerage / Team</label>
+            <input id="brokerage" type="text" placeholder="Your Team" />
+          </div>
+        </div>
+
+        <div class="upload-label">Headshot &amp; Logo</div>
+        <div class="upload-grid">
+          <label class="upload" id="headshot-upload">
+            <div class="upload-content">
+              <div class="upload-icon">+</div>
+              <div class="upload-text">Headshot</div>
+              <div class="upload-help">PNG / JPG, square works best</div>
+            </div>
+            <input type="file" accept="image/*" id="headshot-file" />
+            <button type="button" class="upload-clear" data-target="headshot">×</button>
+          </label>
+          <label class="upload" id="logo-upload">
+            <div class="upload-content">
+              <div class="upload-icon">+</div>
+              <div class="upload-text">Logo</div>
+              <div class="upload-help">PNG with transparency preferred</div>
+            </div>
+            <input type="file" accept="image/*" id="logo-file" />
+            <button type="button" class="upload-clear" data-target="logo">×</button>
+          </label>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="section">
+        <div class="section-label">Contact</div>
+        <div class="field-row">
+          <div class="field">
+            <label for="contactEmail">Email</label>
+            <input id="contactEmail" type="email" placeholder="you@brokerage.com" />
+          </div>
+          <div class="field">
+            <label for="contactPhone">Phone</label>
+            <input id="contactPhone" type="tel" placeholder="(617) 555-0100" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="optInUrl">Website / Opt-in URL</label>
+          <input id="optInUrl" type="text" placeholder="yourbrokerage.com/optin" />
+        </div>
+      </div>
+
+      <!-- VISUAL STYLE -->
+      <div class="section">
+        <div class="section-label">Visual Direction</div>
+        <div class="field-help" style="margin-bottom: 14px;">Applies to all six posts. Each has its own personality.</div>
+        <div class="toggle-grid cols-3" id="style-toggles">
+          <button type="button" class="toggle-btn" data-style="editorial">
+            <span class="tb-name">Editorial</span>
+            <span class="tb-meta">Type, white space</span>
+          </button>
+          <button type="button" class="toggle-btn active" data-style="magazine">
+            <span class="tb-name">Magazine</span>
+            <span class="tb-meta">Bold red blocks</span>
+          </button>
+          <button type="button" class="toggle-btn" data-style="data">
+            <span class="tb-name">Data</span>
+            <span class="tb-meta">Numbers as art</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PLATFORM SIZE -->
+      <div class="section">
+        <div class="section-label">Platform Size</div>
+        <div class="field-help" style="margin-bottom: 14px;">Renders all six posts at the chosen size when you export.</div>
+        <div class="size-grid" id="size-toggles">
+          <button type="button" class="size-btn active" data-size="square" data-platform="Instagram / LinkedIn">
+            <div class="size-shape" style="width: 26px; height: 26px;"></div>
+            <div class="size-name">IG / LI</div>
+            <div class="size-dim">1080×1080</div>
+          </button>
+          <button type="button" class="size-btn" data-size="vertical" data-platform="Instagram Story / Reel">
+            <div class="size-shape" style="width: 16px; height: 28px;"></div>
+            <div class="size-name">Story</div>
+            <div class="size-dim">1080×1920</div>
+          </button>
+          <button type="button" class="size-btn" data-size="landscape" data-platform="Facebook">
+            <div class="size-shape" style="width: 32px; height: 17px;"></div>
+            <div class="size-name">FB Feed</div>
+            <div class="size-dim">1200×630</div>
+          </button>
+          <button type="button" class="size-btn" data-size="square" data-platform="LinkedIn" data-li="1">
+            <div class="size-shape" style="width: 26px; height: 26px;"></div>
+            <div class="size-name">LinkedIn</div>
+            <div class="size-dim">1200×1200</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="save-status" id="save-status">Auto-saved to this browser</div>
+
+      <div class="download-bar">
+        <span class="db-text">Need slides too?</span>
+        <a href="index.html">Back to deck</a>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- ─── RIGHT: PREVIEW PANE ─────────────────────────────── -->
+  <div class="preview-pane">
+    <div class="stage-header">
+      <span class="stage-title">Posts</span>
+      <span class="stage-meta">Direction: <b id="meta-style">Magazine</b> · <b id="meta-size">Instagram / LinkedIn</b></span>
+    </div>
+
+    <div id="post-list"></div>
+  </div>
+</div>
+
+<!-- ─── POST DEFS + RENDER LOGIC ─────────────────────────────── -->
+<script>
+// ─────────────────────────────────────────────────────────────
+//  STORAGE — share key with index.html so profile persists
+// ─────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'mdc_customize_v1';
+const SOCIAL_KEY  = 'mdc_social_v1';
+
+const PROFILE_DEFAULTS = {
+  agentName: '',
+  agentTitle: 'Loan Officer',
+  brokerage: 'Your Team',
+  contactEmail: '',
+  contactPhone: '',
+  optInUrl: '',
+  headshotUrl: '',
+  logoUrl: '',
+  accent: '#D13239',
+};
+const SOCIAL_DEFAULTS = {
+  style: 'magazine',  // editorial | magazine | data
+  size: 'square',     // square | vertical | landscape
+  platformLabel: 'Instagram / LinkedIn',
+};
+
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { ...PROFILE_DEFAULTS };
+    return { ...PROFILE_DEFAULTS, ...JSON.parse(raw) };
+  } catch { return { ...PROFILE_DEFAULTS }; }
+}
+function saveProfile() {
+  // merge with whatever the deck stored — never wipe deck-only fields
+  let existing = {};
+  try { existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch {}
+  const merged = { ...existing };
+  for (const k of Object.keys(PROFILE_DEFAULTS)) merged[k] = profile[k];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
+  setSaveStatus('Auto-saved to this browser');
+}
+function loadSocial() {
+  try {
+    const raw = localStorage.getItem(SOCIAL_KEY);
+    if (!raw) return { ...SOCIAL_DEFAULTS };
+    return { ...SOCIAL_DEFAULTS, ...JSON.parse(raw) };
+  } catch { return { ...SOCIAL_DEFAULTS }; }
+}
+function saveSocial() {
+  localStorage.setItem(SOCIAL_KEY, JSON.stringify(social));
+}
+
+let profile = loadProfile();
+let social  = loadSocial();
+
+let saveTimer;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { saveProfile(); saveSocial(); }, 350);
+}
+function setSaveStatus(text) {
+  document.getElementById('save-status').textContent = text;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  POST DEFINITIONS — 6 themes
+// ─────────────────────────────────────────────────────────────
+const POSTS = [
+  {
+    id: 'opportunity',
+    num: '01',
+    title: 'The Opportunity',
+    eyebrow: 'The Opportunity',
+    bigStat: '$25,000',
+    bigStatLabel: 'MassHousing grant. Real money for real buyers.',
+    headline: 'There is real money on the table.',
+    bodyLine1: 'A $25,000 MassHousing grant.',
+    bodyLine2: 'A 90-day window. Eight realtor partners.',
+    bodyLine3: 'One disciplined campaign.',
+    cta: 'Know a buyer who qualifies? Let\'s talk.',
+    caption:
+`There is real money on the table for first-time homebuyers in Massachusetts.
+
+A $25,000 MassHousing down-payment grant. A 90-day window. The kind of opportunity that actually moves families into homes.
+
+I'm running my Million Dollar Challenge. Eight realtor partners. One disciplined campaign. Real closings — not promises.
+
+If you know a buyer who's been sitting on the fence, this is the year.
+
+DM me. Let's get them in.
+
+#MillionDollarChallenge #MassHousing #FirstTimeHomeBuyer #RealEstate #HomeOwnership #DownPaymentAssistance #BuiltToClose`
+  },
+  {
+    id: 'kickoff',
+    num: '02',
+    title: 'My Commitment',
+    eyebrow: 'I\'m In.',
+    bigStat: '90 DAYS',
+    bigStatLabel: 'One challenge. One million in closings.',
+    headline: 'I\'m running the Million Dollar Challenge.',
+    bodyLine1: 'Ninety days.',
+    bodyLine2: 'Eight realtor partners.',
+    bodyLine3: 'One million in closings.',
+    cta: 'Public commitment. No backing out.',
+    caption:
+`I'm officially running the Million Dollar Challenge.
+
+90 days. Eight realtor partners. One million dollars in closings.
+
+This isn't a marketing campaign — it's a public commitment. The kind you can't back out of when it gets hard. The kind that builds careers.
+
+Why announce it? Because accountability changes everything. You'll watch me show up, week after week, with the receipts.
+
+Here's to the next 90 days. Built to close.
+
+#MillionDollarChallenge #BuiltToClose #LoanOfficer #RealEstate #Mortgage #Accountability #DisciplineWins`
+  },
+  {
+    id: 'recruit',
+    num: '03',
+    title: 'Picking My Eight',
+    eyebrow: 'Calling Eight.',
+    bigStat: '8',
+    bigStatLabel: 'Realtor partners. Not a list. A team.',
+    headline: 'Looking for eight realtors who close.',
+    bodyLine1: 'Not a list.',
+    bodyLine2: 'A team.',
+    bodyLine3: 'A 90-day commitment.',
+    cta: 'If that\'s you — DM me. Slots filling fast.',
+    caption:
+`I'm picking eight realtor partners for my Million Dollar Challenge. Not a referral list — a team.
+
+The deal: 90 days. Five closings each. We move together, communicate weekly, run buyer education with your database, and we win together.
+
+I'm looking for agents who close — not agents who shop rates. Agents who answer their phone on Saturdays. Agents who treat their database like their net worth, because it is.
+
+If that's you, DM me. I'm picking the eight by Friday.
+
+#RealtorPartners #MillionDollarChallenge #LoanOfficer #RealEstateTeam #DisciplineWins #BuiltToClose`
+  },
+  {
+    id: 'testimonial',
+    num: '04',
+    title: 'Client Proof',
+    eyebrow: 'They Closed.',
+    bigStat: '"',
+    bigStatLabel: 'A win that started with one phone call.',
+    headline: '"We never thought we\'d qualify. Now we have keys."',
+    bodyLine1: '— First-time homebuyer',
+    bodyLine2: '$25K MassHousing grant.',
+    bodyLine3: 'Closed in 32 days.',
+    cta: 'This is why I do this work.',
+    caption:
+`"We never thought we'd qualify. Now we have keys."
+
+That sentence is why I do this work.
+
+This family came in convinced they couldn't buy. We walked them through the MassHousing grant, paired them with the right agent, and closed in 32 days.
+
+The Million Dollar Challenge isn't about the number on a leaderboard. It's about the moments behind every closing — the relief, the keys, the fresh start.
+
+Five more like this in the next 30 days. That's the goal.
+
+#MillionDollarChallenge #FirstTimeHomeBuyer #HomeOwnership #ClientWin #BuiltToClose #RealEstate`
+  },
+  {
+    id: 'finalpush',
+    num: '05',
+    title: 'Final Push',
+    eyebrow: 'Final 30 Days.',
+    bigStat: '30',
+    bigStatLabel: 'Days left. The window is closing.',
+    headline: 'The window is closing. Don\'t wait on this.',
+    bodyLine1: 'Thirty days left.',
+    bodyLine2: 'A $25K grant. A locked rate.',
+    bodyLine3: 'A real path to keys before fall.',
+    cta: 'If you\'ve been waiting — this is the call.',
+    caption:
+`The window is closing.
+
+We're 30 days from the finish line on the Million Dollar Challenge — and the families I'm closing right now are the ones who said "let's go" instead of "let me think about it."
+
+A $25,000 MassHousing grant. A locked rate. A real path to keys before the leaves turn.
+
+If you've been sitting on this — call me, text me, DM me. Pre-approval takes one conversation.
+
+You don't get this window back. We do.
+
+#MillionDollarChallenge #FinalPush #FirstTimeHomeBuyer #RealEstate #MassHousing #BuiltToClose`
+  },
+  {
+    id: 'champion',
+    num: '06',
+    title: 'Champion Close',
+    eyebrow: 'Million. Closed.',
+    bigStat: '$1,000,000',
+    bigStatLabel: 'Closed. 90 days. Built to close.',
+    headline: 'One million dollars. Closed.',
+    bodyLine1: 'Ninety days.',
+    bodyLine2: 'Eight realtor partners.',
+    bodyLine3: 'Forty families home.',
+    cta: 'To my team — thank you. We\'re just getting started.',
+    caption:
+`We did it.
+
+90 days. Eight realtor partners. Forty families in their new homes. One million dollars in closings.
+
+The Million Dollar Challenge isn't a marketing line — it's a credential I'll carry for the rest of my career. Earned, not claimed.
+
+To my eight: I told you we'd do this together, and we did. To every family who trusted us with the biggest financial decision of their lives: thank you.
+
+Onto the next one. Discipline wins.
+
+#MillionDollarChallenge #Champion #BuiltToClose #DisciplineWins #LoanOfficer #RealEstate #ThankYou`
+  },
+];
+
+// ─────────────────────────────────────────────────────────────
+//  CANVAS TEMPLATES — three styles per size
+// ─────────────────────────────────────────────────────────────
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function safe(s, fallback) {
+  s = (s || '').toString().trim();
+  return s || fallback || '';
+}
+
+function profileBits() {
+  return {
+    name: safe(profile.agentName, 'Your Name'),
+    title: safe(profile.agentTitle, 'Loan Officer'),
+    brokerage: safe(profile.brokerage, 'Your Team'),
+    email: safe(profile.contactEmail, ''),
+    phone: safe(profile.contactPhone, ''),
+    url: safe(profile.optInUrl, ''),
+    headshot: profile.headshotUrl || '',
+    logo: profile.logoUrl || '',
+    accent: profile.accent || '#D13239',
+  };
+}
+
+// Choose font scaling based on size
+function scaleFor(size) {
+  // Headline base size in canvas px — these are absolute since canvas has fixed dims
+  return {
+    square:    { headline: 96,  bigStat: 220, eyebrow: 22, body: 28, footer: 18 },
+    vertical:  { headline: 110, bigStat: 280, eyebrow: 26, body: 32, footer: 20 },
+    landscape: { headline: 64,  bigStat: 130, eyebrow: 16, body: 20, footer: 14 },
+  }[size];
+}
+
+// Render headshot block (used in editorial + magazine)
+function headshotEl(p, sizePx) {
+  if (p.headshot) {
+    return `<div style="width: ${sizePx}px; height: ${sizePx}px; border-radius: 50%; overflow: hidden; background: #eee; flex-shrink: 0;">
+      <img src="${p.headshot}" style="width:100%;height:100%;object-fit:cover;display:block;" />
+    </div>`;
+  }
+  return `<div style="width: ${sizePx}px; height: ${sizePx}px; border-radius: 50%; background: #2A2A2A; color: rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-family: Montserrat; font-weight: 800; font-size: ${sizePx*0.32}px; letter-spacing: -0.02em; flex-shrink: 0;">
+    ${escapeHtml((p.name[0] || 'A').toUpperCase())}
+  </div>`;
+}
+
+// Footer agent strip — name + contact
+function agentFooter(p, fontSize, color) {
+  const c = color || '#0A0A0A';
+  const dim = 'rgba(0,0,0,0.55)';
+  const dimC = color === 'white' ? 'rgba(255,255,255,0.6)' : dim;
+  const contactBits = [p.phone, p.email, p.url].filter(Boolean).join('  ·  ');
+  return `
+    <div style="display:flex; flex-direction:column; gap: ${fontSize*0.3}px;">
+      <div style="font-family: Montserrat; font-weight: 800; font-size: ${fontSize*1.15}px; letter-spacing: -0.005em; color: ${c};">
+        ${escapeHtml(p.name)}
+      </div>
+      <div style="font-family: Jost; font-weight: 400; font-size: ${fontSize*0.78}px; color: ${dimC}; letter-spacing: 0.02em;">
+        ${escapeHtml(p.title)} · ${escapeHtml(p.brokerage)}
+      </div>
+      ${contactBits ? `<div style="font-family: Montserrat; font-weight: 600; font-size: ${fontSize*0.7}px; color: ${dimC}; letter-spacing: 0.06em; text-transform: uppercase; margin-top: ${fontSize*0.4}px;">
+        ${escapeHtml(contactBits)}
+      </div>` : ''}
+    </div>
+  `;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STYLE: EDITORIAL — white bg, lots of space, big serif/sans type
+// ─────────────────────────────────────────────────────────────
+function renderEditorial(post, size) {
+  const p = profileBits();
+  const s = scaleFor(size);
+  const dims = canvasDims(size);
+  const pad = size === 'landscape' ? 60 : (size === 'vertical' ? 110 : 90);
+
+  // Layout differs by orientation
+  if (size === 'landscape') {
+    return `
+      <div class="canvas size-${size}" style="background: #fafafa; color: #0a0a0a; display: grid; grid-template-columns: 1.2fr 1fr;">
+        <div style="padding: ${pad}px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 28px;">
+              <div style="width: 36px; height: 4px; background: ${p.accent};"></div>
+              <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: ${p.accent};">${escapeHtml(post.eyebrow)}</span>
+            </div>
+            <div class="c-headline" style="font-size: ${s.headline}px; max-width: 580px;">
+              ${escapeHtml(post.headline)}
+            </div>
+          </div>
+          ${agentFooter(p, s.footer)}
+        </div>
+        <div style="background: ${p.accent}; padding: ${pad}px; color: white; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.bigStat * 0.55}px; line-height: 0.92; letter-spacing: -0.04em;">
+            ${escapeHtml(post.bigStat)}
+          </div>
+          <div class="c-body" style="font-size: ${s.body * 0.95}px; opacity: 0.92; max-width: 320px;">
+            ${escapeHtml(post.bigStatLabel)}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // square + vertical share a layout, just different proportions
+  return `
+    <div class="canvas size-${size}" style="background: #fafafa; color: #0a0a0a; padding: ${pad}px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 18px; margin-bottom: ${size === 'vertical' ? 60 : 40}px;">
+          <div style="width: 48px; height: 5px; background: ${p.accent};"></div>
+          <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: ${p.accent};">${escapeHtml(post.eyebrow)}</span>
+        </div>
+        <div class="c-headline" style="font-size: ${s.headline}px; max-width: ${size === 'vertical' ? 800 : 880}px;">
+          ${escapeHtml(post.headline)}
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: ${size === 'vertical' ? 22 : 14}px; max-width: 700px;">
+        <div class="c-body" style="font-size: ${s.body}px; color: #0a0a0a; font-weight: 400;">
+          ${escapeHtml(post.bodyLine1)}
+        </div>
+        <div class="c-body" style="font-size: ${s.body}px; color: #0a0a0a; font-weight: 400;">
+          ${escapeHtml(post.bodyLine2)}
+        </div>
+        <div class="c-body" style="font-size: ${s.body}px; color: #0a0a0a; font-weight: 400;">
+          ${escapeHtml(post.bodyLine3)}
+        </div>
+        <div class="c-body" style="font-size: ${s.body * 0.9}px; color: ${p.accent}; font-weight: 500; margin-top: ${size === 'vertical' ? 30 : 18}px; font-style: italic;">
+          ${escapeHtml(post.cta)}
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; margin-top: ${size === 'vertical' ? 80 : 50}px; padding-top: ${size === 'vertical' ? 50 : 36}px; border-top: 1px solid rgba(0,0,0,0.1);">
+        <div style="display: flex; align-items: center; gap: ${size === 'vertical' ? 28 : 22}px;">
+          ${headshotEl(p, size === 'vertical' ? 130 : 96)}
+          ${agentFooter(p, s.footer)}
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer * 0.78}px; letter-spacing: 0.22em; text-transform: uppercase; color: ${p.accent};">$1M Challenge</div>
+          <div style="font-family: Montserrat; font-weight: 700; font-size: ${s.footer * 0.7}px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.4); margin-top: 4px;">Built To Close</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STYLE: MAGAZINE — bold red blocks, dramatic, headshot hero
+// ─────────────────────────────────────────────────────────────
+function renderMagazine(post, size) {
+  const p = profileBits();
+  const s = scaleFor(size);
+
+  if (size === 'landscape') {
+    return `
+      <div class="canvas size-${size}" style="background: #0a0a0a; color: white; display: grid; grid-template-columns: 280px 1fr; align-items: stretch;">
+        <div style="background: ${p.accent}; padding: 50px 30px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;">
+          ${headshotEl(p, 160)}
+          <div>
+            <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.eyebrow * 0.95}px; letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.3;">
+              ${escapeHtml(p.name)}
+            </div>
+            <div style="font-family: Jost; font-weight: 400; font-size: ${s.body * 0.7}px; opacity: 0.85; margin-top: 4px;">
+              ${escapeHtml(p.title)}
+            </div>
+          </div>
+        </div>
+        <div style="padding: 50px 60px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: ${p.accent}; display: block; margin-bottom: 18px;">${escapeHtml(post.eyebrow)}</span>
+            <div class="c-headline" style="font-size: ${s.headline}px; line-height: 0.98;">
+              ${escapeHtml(post.headline)}
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 30px;">
+            <div style="font-family: Jost; font-weight: 300; font-size: ${s.body * 0.85}px; color: rgba(255,255,255,0.85); font-style: italic; max-width: 380px;">
+              ${escapeHtml(post.cta)}
+            </div>
+            <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer * 0.85}px; letter-spacing: 0.22em; text-transform: uppercase; color: ${p.accent};">
+              $1M Challenge
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // square + vertical — full-bleed black with red diagonal accent
+  return `
+    <div class="canvas size-${size}" style="background: #0a0a0a; color: white; position: relative; overflow: hidden;">
+      <!-- accent block -->
+      <div style="position: absolute; top: 0; right: 0; width: ${size === 'vertical' ? 540 : 380}px; height: ${size === 'vertical' ? 540 : 380}px; background: ${p.accent};"></div>
+      <div style="position: absolute; top: 0; right: 0; width: ${size === 'vertical' ? 540 : 380}px; height: ${size === 'vertical' ? 540 : 380}px; display: flex; align-items: center; justify-content: center; padding: 40px;">
+        <div style="text-align: center;">
+          <div style="font-family: Montserrat; font-weight: 800; font-size: ${size === 'vertical' ? 38 : 26}px; letter-spacing: 0.22em; text-transform: uppercase; color: white; line-height: 1.2;">
+            $1M<br>Challenge
+          </div>
+          <div style="width: 36px; height: 2px; background: white; margin: ${size === 'vertical' ? 18 : 12}px auto;"></div>
+          <div style="font-family: Montserrat; font-weight: 700; font-size: ${size === 'vertical' ? 18 : 12}px; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.85);">
+            Built To Close
+          </div>
+        </div>
+      </div>
+
+      <!-- main content -->
+      <div style="position: absolute; inset: 0; padding: ${size === 'vertical' ? 110 : 80}px; display: flex; flex-direction: column; justify-content: space-between;">
+        <div style="max-width: ${size === 'vertical' ? 540 : 600}px;">
+          <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: ${p.accent}; display: block; margin-bottom: ${size === 'vertical' ? 28 : 20}px;">${escapeHtml(post.eyebrow)}</span>
+          <div class="c-headline" style="font-size: ${s.headline}px; max-width: ${size === 'vertical' ? 540 : 620}px; color: white;">
+            ${escapeHtml(post.headline)}
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; flex-direction: column; gap: ${size === 'vertical' ? 14 : 10}px; margin-bottom: ${size === 'vertical' ? 60 : 40}px; max-width: 600px;">
+            <div class="c-body" style="font-size: ${s.body}px; color: rgba(255,255,255,0.92);">
+              ${escapeHtml(post.bodyLine1)}
+            </div>
+            <div class="c-body" style="font-size: ${s.body}px; color: rgba(255,255,255,0.92);">
+              ${escapeHtml(post.bodyLine2)}
+            </div>
+            <div class="c-body" style="font-size: ${s.body}px; color: rgba(255,255,255,0.92);">
+              ${escapeHtml(post.bodyLine3)}
+            </div>
+          </div>
+
+          <div style="padding-top: ${size === 'vertical' ? 40 : 28}px; border-top: 1px solid rgba(255,255,255,0.18);">
+            <div style="display: flex; align-items: center; gap: ${size === 'vertical' ? 28 : 22}px;">
+              ${headshotEl(p, size === 'vertical' ? 130 : 96)}
+              <div style="display:flex; flex-direction:column; gap: ${s.footer*0.3}px;">
+                <div style="font-family: Montserrat; font-weight: 800; font-size: ${s.footer*1.3}px; letter-spacing: -0.005em; color: white;">
+                  ${escapeHtml(p.name)}
+                </div>
+                <div style="font-family: Jost; font-weight: 400; font-size: ${s.footer*0.85}px; color: rgba(255,255,255,0.7);">
+                  ${escapeHtml(p.title)} · ${escapeHtml(p.brokerage)}
+                </div>
+                ${(p.phone || p.email || p.url) ? `<div style="font-family: Montserrat; font-weight: 600; font-size: ${s.footer*0.72}px; color: rgba(255,255,255,0.55); letter-spacing: 0.08em; text-transform: uppercase; margin-top: ${s.footer*0.4}px;">
+                  ${escapeHtml([p.phone, p.email, p.url].filter(Boolean).join('  ·  '))}
+                </div>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STYLE: DATA — numbers as art, monochrome with red highlight
+// ─────────────────────────────────────────────────────────────
+function renderData(post, size) {
+  const p = profileBits();
+  const s = scaleFor(size);
+
+  if (size === 'landscape') {
+    return `
+      <div class="canvas size-${size}" style="background: white; color: #0a0a0a; display: grid; grid-template-columns: 1fr 1.4fr; gap: 0;">
+        <div style="background: #0a0a0a; color: white; padding: 50px 60px; display: flex; flex-direction: column; justify-content: center;">
+          <div style="font-family: Montserrat; font-weight: 900; font-size: ${s.bigStat * 0.65}px; letter-spacing: -0.05em; line-height: 0.88; color: ${p.accent};">
+            ${escapeHtml(post.bigStat)}
+          </div>
+          <div style="font-family: Jost; font-weight: 300; font-size: ${s.body * 0.85}px; color: rgba(255,255,255,0.85); margin-top: 18px; line-height: 1.4; max-width: 320px;">
+            ${escapeHtml(post.bigStatLabel)}
+          </div>
+        </div>
+        <div style="padding: 50px 56px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: ${p.accent}; display: block; margin-bottom: 16px;">${escapeHtml(post.eyebrow)}</span>
+            <div class="c-headline" style="font-size: ${s.headline * 0.85}px;">
+              ${escapeHtml(post.headline)}
+            </div>
+          </div>
+          ${agentFooter(p, s.footer)}
+        </div>
+      </div>`;
+  }
+
+  // square + vertical: HUGE stat on top, content below
+  const isV = size === 'vertical';
+  return `
+    <div class="canvas size-${size}" style="background: white; color: #0a0a0a; padding: ${isV ? 110 : 80}px; display: flex; flex-direction: column; justify-content: space-between;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 28px;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <div style="width: 12px; height: 12px; background: ${p.accent}; border-radius: 50%;"></div>
+          <span class="c-eyebrow" style="font-size: ${s.eyebrow}px; color: #0a0a0a;">${escapeHtml(post.eyebrow)}</span>
+        </div>
+        <div style="font-family: Montserrat; font-weight: 700; font-size: ${s.eyebrow * 0.85}px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(0,0,0,0.4);">
+          $1M Challenge
+        </div>
+      </div>
+
+      <div style="text-align: left;">
+        <div class="c-stat" style="font-size: ${s.bigStat}px; color: #0a0a0a; line-height: 0.86;">
+          ${escapeHtml(post.bigStat)}
+        </div>
+        <div style="height: ${isV ? 8 : 6}px; width: ${isV ? 200 : 140}px; background: ${p.accent}; margin-top: ${isV ? 40 : 28}px;"></div>
+        <div class="c-body" style="font-size: ${s.body * 1.1}px; color: rgba(0,0,0,0.7); margin-top: ${isV ? 28 : 20}px; max-width: 700px; font-weight: 400;">
+          ${escapeHtml(post.bigStatLabel)}
+        </div>
+      </div>
+
+      <div>
+        <div class="c-headline" style="font-size: ${s.headline * 0.65}px; line-height: 1.05; max-width: ${isV ? 720 : 700}px; color: #0a0a0a; margin-bottom: ${isV ? 40 : 28}px;">
+          ${escapeHtml(post.headline)}
+        </div>
+        <div style="display: flex; align-items: center; gap: ${isV ? 28 : 22}px; padding-top: ${isV ? 36 : 26}px; border-top: 1px solid rgba(0,0,0,0.1);">
+          ${headshotEl(p, isV ? 110 : 84)}
+          ${agentFooter(p, s.footer)}
+        </div>
+      </div>
+    </div>`;
+}
+
+const RENDERERS = {
+  editorial: renderEditorial,
+  magazine: renderMagazine,
+  data: renderData,
+};
+
+// canvas dims
+function canvasDims(size) {
+  return {
+    square:    { w: 1080, h: 1080 },
+    vertical:  { w: 1080, h: 1920 },
+    landscape: { w: 1200, h: 630 },
+  }[size];
+}
+
+// ─────────────────────────────────────────────────────────────
+//  RENDER LOOP
+// ─────────────────────────────────────────────────────────────
+function renderAll() {
+  const list = document.getElementById('post-list');
+  list.innerHTML = '';
+  const dims = canvasDims(social.size);
+  const wrapWidth = 920 - 360; // post-card grid: minmax(0,1fr) on left = ~560px when meta is 360
+  // Determine display fit: scale canvas so it fits in left column (max ~520px wide)
+  const maxW = social.size === 'landscape' ? 920 : 520;
+  const scale = Math.min(maxW / dims.w, (social.size === 'landscape' ? 480 : 700) / dims.h);
+
+  POSTS.forEach((post) => {
+    const renderer = RENDERERS[social.style];
+    const html = renderer(post, social.size);
+
+    const card = document.createElement('div');
+    card.className = `post-card layout-${social.size}`;
+
+    // For landscape, full width with caption below; square/vertical have caption on right
+    if (social.size === 'landscape') {
+      card.innerHTML = `
+        <div class="post-canvas-wrap">
+          <div class="canvas-scaler" data-post-id="${post.id}" style="transform: scale(${scale});">
+            ${html}
+          </div>
+        </div>
+        <div class="post-meta" style="background:#1f1f1f;">
+          <div>
+            <div class="post-meta-num">${post.num} · ${escapeHtml(post.title)}</div>
+            <div class="post-meta-title" style="margin-top:8px;">${escapeHtml(post.eyebrow)}</div>
+          </div>
+          <div>
+            <div class="post-caption-label">Caption + hashtags</div>
+            <div class="post-caption">${escapeHtml(post.caption)}</div>
+          </div>
+          <div class="post-actions">
+            <button class="post-btn" data-action="download" data-post-id="${post.id}">
+              <span class="btn-tick">✓</span><span class="btn-label">Download PNG</span>
+            </button>
+            <button class="post-btn secondary" data-action="copy" data-post-id="${post.id}">
+              <span class="btn-tick">✓</span><span class="btn-label">Copy Caption</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="post-canvas-wrap">
+          <div class="canvas-scaler" data-post-id="${post.id}" style="transform: scale(${scale});">
+            ${html}
+          </div>
+        </div>
+        <div class="post-meta">
+          <div>
+            <div class="post-meta-num">${post.num} · ${escapeHtml(post.title)}</div>
+            <div class="post-meta-title">${escapeHtml(post.eyebrow)}</div>
+          </div>
+          <div>
+            <div class="post-caption-label">Caption + hashtags</div>
+            <div class="post-caption">${escapeHtml(post.caption)}</div>
+          </div>
+          <div class="post-actions">
+            <button class="post-btn" data-action="download" data-post-id="${post.id}">
+              <span class="btn-tick">✓</span><span class="btn-label">Download PNG</span>
+            </button>
+            <button class="post-btn secondary" data-action="copy" data-post-id="${post.id}">
+              <span class="btn-tick">✓</span><span class="btn-label">Copy Caption</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    list.appendChild(card);
+  });
+
+  // Adjust each canvas-wrap height to fit scaled canvas exactly
+  list.querySelectorAll('.post-canvas-wrap').forEach(wrap => {
+    const scaler = wrap.querySelector('.canvas-scaler');
+    const canvas = scaler.querySelector('.canvas');
+    if (!canvas) return;
+    const w = parseFloat(canvas.style.width || canvas.offsetWidth) || canvasDims(social.size).w;
+    const h = parseFloat(canvas.style.height || canvas.offsetHeight) || canvasDims(social.size).h;
+    const sc = parseFloat(scaler.style.transform.match(/scale\(([\d.]+)\)/)?.[1] || 1);
+    wrap.style.minHeight = (h * sc + 56) + 'px';
+    // center the scaled canvas
+    scaler.style.width = (w * sc) + 'px';
+    scaler.style.height = (h * sc) + 'px';
+    // re-apply transform with origin top-left to make sizing predictable
+    scaler.style.transformOrigin = 'top left';
+    // use position absolute trick: wrap as flex centers, but scaled element keeps real layout box
+    // simpler: give scaler a fixed pixel box and put the canvas inside, scaled from top-left
+    const inner = scaler.querySelector('.canvas');
+    if (inner) {
+      inner.style.transform = `scale(${sc})`;
+      inner.style.transformOrigin = 'top left';
+      inner.style.position = 'absolute';
+      inner.style.top = '0';
+      inner.style.left = '0';
+      scaler.style.transform = 'none';
+      scaler.style.position = 'relative';
+    }
+  });
+
+  // wire actions
+  list.querySelectorAll('[data-action="download"]').forEach(btn => {
+    btn.addEventListener('click', () => downloadPNG(btn.dataset.postId, btn));
+  });
+  list.querySelectorAll('[data-action="copy"]').forEach(btn => {
+    btn.addEventListener('click', () => copyCaption(btn.dataset.postId, btn));
+  });
+
+  // update meta
+  document.getElementById('meta-style').textContent =
+    { editorial: 'Editorial', magazine: 'Magazine', data: 'Data' }[social.style];
+  const sizeBtn = document.querySelector(`.size-btn.active`);
+  document.getElementById('meta-size').textContent = sizeBtn?.dataset.platform || 'Instagram / LinkedIn';
+}
+
+// ─────────────────────────────────────────────────────────────
+//  DOWNLOAD PNG  (using html-to-image)
+// ─────────────────────────────────────────────────────────────
+async function downloadPNG(postId, btn) {
+  const post = POSTS.find(p => p.id === postId);
+  if (!post) return;
+
+  const original = btn.querySelector('.btn-label').textContent;
+  btn.querySelector('.btn-label').textContent = 'Rendering…';
+  btn.disabled = true;
+
+  try {
+    const dims = canvasDims(social.size);
+    // Build an off-screen, full-size canvas (no scaling)
+    const renderer = RENDERERS[social.style];
+    const html = renderer(post, social.size);
+
+    const offscreen = document.createElement('div');
+    offscreen.style.position = 'fixed';
+    offscreen.style.top = '0';
+    offscreen.style.left = '-99999px';
+    offscreen.style.width = dims.w + 'px';
+    offscreen.style.height = dims.h + 'px';
+    offscreen.style.background = 'white';
+    offscreen.innerHTML = html;
+    document.body.appendChild(offscreen);
+
+    // Wait one frame for fonts/imgs
+    await new Promise(r => requestAnimationFrame(r));
+    // Wait briefly for embedded images
+    const imgs = offscreen.querySelectorAll('img');
+    await Promise.all([...imgs].map(img => {
+      if (img.complete && img.naturalWidth) return Promise.resolve();
+      return new Promise(res => { img.onload = img.onerror = res; });
+    }));
+    await new Promise(r => setTimeout(r, 80));
+
+    const canvasEl = offscreen.querySelector('.canvas');
+    const dataUrl = await htmlToImage.toPng(canvasEl, {
+      width: dims.w, height: dims.h,
+      pixelRatio: 1,
+      cacheBust: true,
+      style: { transform: 'none' },
+    });
+    document.body.removeChild(offscreen);
+
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    const platform = (document.querySelector('.size-btn.active')?.dataset.platform || 'social').replace(/[^\w]+/g, '-').toLowerCase();
+    a.download = `mdc-${post.id}-${platform}-${dims.w}x${dims.h}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    btn.classList.add('copied');
+    btn.querySelector('.btn-label').textContent = 'Downloaded';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.querySelector('.btn-label').textContent = original;
+      btn.disabled = false;
+    }, 1600);
+  } catch (e) {
+    console.error(e);
+    btn.querySelector('.btn-label').textContent = 'Failed — retry';
+    setTimeout(() => {
+      btn.querySelector('.btn-label').textContent = original;
+      btn.disabled = false;
+    }, 1800);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  COPY CAPTION
+// ─────────────────────────────────────────────────────────────
+async function copyCaption(postId, btn) {
+  const post = POSTS.find(p => p.id === postId);
+  if (!post) return;
+  try {
+    await navigator.clipboard.writeText(post.caption);
+    btn.classList.add('copied');
+    const lbl = btn.querySelector('.btn-label');
+    const old = lbl.textContent;
+    lbl.textContent = 'Copied';
+    setTimeout(() => { btn.classList.remove('copied'); lbl.textContent = old; }, 1400);
+  } catch {
+    btn.querySelector('.btn-label').textContent = 'Copy failed';
+    setTimeout(() => { btn.querySelector('.btn-label').textContent = 'Copy Caption'; }, 1600);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  FORM WIRING
+// ─────────────────────────────────────────────────────────────
+const TEXT_FIELDS = ['agentName', 'agentTitle', 'brokerage', 'contactEmail', 'contactPhone', 'optInUrl'];
+
+function applyProfileToForm() {
+  TEXT_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = profile[id] || '';
+  });
+  // headshots
+  setUploadPreview('headshot', profile.headshotUrl);
+  setUploadPreview('logo',     profile.logoUrl);
+}
+
+function setUploadPreview(target, dataUrl) {
+  const wrap = document.getElementById(`${target}-upload`);
+  if (!wrap) return;
+  const existingImg = wrap.querySelector('img:not(.upload-clear)');
+  if (existingImg) existingImg.remove();
+  if (dataUrl) {
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    wrap.appendChild(img);
+    wrap.classList.add('has-image');
+  } else {
+    wrap.classList.remove('has-image');
+  }
+}
+
+function wireForm() {
+  TEXT_FIELDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', () => {
+      profile[id] = el.value;
+      scheduleSave();
+      renderAll();
+    });
+  });
+
+  // Uploads
+  function wireUpload(target) {
+    const fileInput = document.getElementById(`${target}-file`);
+    const wrap = document.getElementById(`${target}-upload`);
+    const clear = wrap.querySelector('.upload-clear');
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        profile[`${target}Url`] = reader.result;
+        setUploadPreview(target, reader.result);
+        scheduleSave();
+        renderAll();
+      };
+      reader.readAsDataURL(file);
+    });
+    clear.addEventListener('click', (e) => {
+      e.preventDefault(); e.stopPropagation();
+      profile[`${target}Url`] = '';
+      fileInput.value = '';
+      setUploadPreview(target, '');
+      scheduleSave();
+      renderAll();
+    });
+  }
+  wireUpload('headshot');
+  wireUpload('logo');
+
+  // Style toggles
+  document.querySelectorAll('#style-toggles .toggle-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#style-toggles .toggle-btn').forEach(o => o.classList.remove('active'));
+      b.classList.add('active');
+      social.style = b.dataset.style;
+      saveSocial();
+      renderAll();
+    });
+  });
+
+  // Size toggles
+  document.querySelectorAll('#size-toggles .size-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#size-toggles .size-btn').forEach(o => o.classList.remove('active'));
+      b.classList.add('active');
+      social.size = b.dataset.size;
+      social.platformLabel = b.dataset.platform;
+      saveSocial();
+      renderAll();
+    });
+  });
+
+  // restore active toggles from social state
+  document.querySelectorAll('#style-toggles .toggle-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.style === social.style);
+  });
+  document.querySelectorAll('#size-toggles .size-btn').forEach((b, i) => {
+    // size buttons share data-size values (square appears twice — IG and LI)
+    // simplest: first matching size becomes active unless social has a li flag
+    b.classList.remove('active');
+  });
+  const matchSize = [...document.querySelectorAll('#size-toggles .size-btn')]
+    .find(b => b.dataset.size === social.size);
+  if (matchSize) matchSize.classList.add('active');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────────────────────
+applyProfileToForm();
+wireForm();
+renderAll();
+
+// Re-render when fonts load (avoids layout shift)
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => renderAll());
+}
+
+// Cross-tab sync: if deck page updates profile, reflect it here
+window.addEventListener('storage', (e) => {
+  if (e.key === STORAGE_KEY) {
+    profile = loadProfile();
+    applyProfileToForm();
+    renderAll();
+  }
+});
+</script>
+
+</body>
+</html>
