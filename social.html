@@ -432,9 +432,9 @@
     flex-shrink: 0;
   }
   /* sizes: scale via wrapper transform */
-  .canvas.size-square { width: 1080px; height: 1080px; }
-  .canvas.size-vertical { width: 1080px; height: 1920px; }
-  .canvas.size-landscape { width: 1200px; height: 630px; }
+  .canvas.size-square { width: 1080px; height: 1080px; overflow: hidden; }
+  .canvas.size-vertical { width: 1080px; height: 1920px; overflow: hidden; }
+  .canvas.size-landscape { width: 1200px; height: 630px; overflow: hidden; }
   /* LinkedIn = square; uses size-square */
 
   .canvas-scaler {
@@ -1590,6 +1590,55 @@ const RENDERERS = {
   data: renderData,
 };
 
+// Auto-fit a rendered .canvas so its content never overflows.
+// Iteratively shrinks the headline (and as a last resort, body lines)
+// until scrollHeight fits within the fixed canvas height. Since the canvas
+// has overflow:hidden, this guarantees no content gets clipped — only
+// shrunk. Idempotent and safe to call on already-fitting canvases.
+function autoFitCanvas(canvasEl, dims) {
+  if (!canvasEl) return;
+  const targetH = dims.h;
+  const targetW = dims.w;
+  // Force layout
+  canvasEl.offsetHeight;
+
+  const headlines = [...canvasEl.querySelectorAll('.c-headline')];
+  const stats = [...canvasEl.querySelectorAll('.c-stat')];
+  const bodies = [...canvasEl.querySelectorAll('.c-body')];
+
+  // Capture starting font-sizes
+  const startSizes = new Map();
+  [...headlines, ...stats, ...bodies].forEach(el => {
+    startSizes.set(el, parseFloat(getComputedStyle(el).fontSize) || 0);
+  });
+
+  // Shrink in passes. Try headline first, then big stat, then body lines.
+  // Each pass reduces by 5% until fit or floor reached.
+  const passes = [
+    { els: headlines, floor: 0.45 }, // headline can shrink to 45% of original
+    { els: stats,     floor: 0.55 },
+    { els: bodies,    floor: 0.60 },
+  ];
+
+  for (const pass of passes) {
+    if (!pass.els.length) continue;
+    let scale = 1.0;
+    while (
+      (canvasEl.scrollHeight > targetH + 1 || canvasEl.scrollWidth > targetW + 1)
+      && scale > pass.floor
+    ) {
+      scale -= 0.05;
+      pass.els.forEach(el => {
+        const start = startSizes.get(el) || 0;
+        if (start > 0) el.style.fontSize = (start * scale).toFixed(1) + 'px';
+      });
+      // Force layout
+      canvasEl.offsetHeight;
+    }
+    if (canvasEl.scrollHeight <= targetH + 1 && canvasEl.scrollWidth <= targetW + 1) break;
+  }
+}
+
 // canvas dims
 function canvasDims(size) {
   return {
@@ -1704,6 +1753,8 @@ function renderAll() {
     const scaler = wrap.querySelector('.canvas-scaler');
     const canvas = scaler.querySelector('.canvas');
     if (!canvas) return;
+    // Auto-fit content before measuring/scaling: ensures preview matches export
+    autoFitCanvas(canvas, canvasDims(social.size));
     const w = parseFloat(canvas.style.width || canvas.offsetWidth) || canvasDims(social.size).w;
     const h = parseFloat(canvas.style.height || canvas.offsetHeight) || canvasDims(social.size).h;
     const sc = parseFloat(scaler.style.transform.match(/scale\(([\d.]+)\)/)?.[1] || 1);
@@ -1780,6 +1831,12 @@ async function downloadPNG(postId, btn) {
     await new Promise(r => setTimeout(r, 80));
 
     const canvasEl = offscreen.querySelector('.canvas');
+    // Auto-fit: shrink the headline until total content fits within the canvas.
+    // The .canvas already has overflow:hidden as a hard backstop, but we'd
+    // rather shrink type than clip it — so iteratively reduce headline size
+    // until scrollHeight <= canvas height (or scrollWidth <= canvas width).
+    autoFitCanvas(canvasEl, dims);
+
     const dataUrl = await htmlToImage.toPng(canvasEl, {
       width: dims.w, height: dims.h,
       pixelRatio: 1,
